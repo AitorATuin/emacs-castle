@@ -1,0 +1,3 @@
+[submodule "quelpa"]
+	path = quelpa
+	url = https://framagit.org/steckerhalter/quelpa.git
