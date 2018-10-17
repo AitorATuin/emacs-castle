@@ -1,3 +1,6 @@
 [submodule "quelpa"]
 	path = quelpa
 	url = https://framagit.org/steckerhalter/quelpa.git
+[submodule "use-package"]
+	path = use-package
+	url = https://github.com/jwiegley/use-package.git
