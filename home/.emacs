@@ -14,7 +14,7 @@
  '(custom-enabled-themes (quote (misterioso)))
  '(package-selected-packages
    (quote
-    (evil goto-chg yasnippet-snippets yasnippet lsp-ui lsp-mode chess helm-ebdb org-edna)))
+    (evil goto-chg yasnippet lsp-ui lsp-mode chess helm-ebdb org-edna)))
  '(tls-checktrust t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -31,7 +31,7 @@
 (setq inhibit-splash-screen t)
 
 ;; Uncomment this to debug use-package loading packages
-;; (setq use-package-verbose 'debug)
+(setq use-package-verbose 'debug)
 
 ;; Uncomment this to use edebug
 ;; (setq debug-on-error t)
@@ -42,12 +42,22 @@
   (add-to-list 'load-path "~/.emacs.d/packages/use-package")
   (require 'use-package))
 
-;; quelpa
+;; Bootstrap quelpa
+; (package-initialize)
+;; (if (require 'quelpa nil t)
+;;     (quelpa-self-upgrade)
+;;   (with-temp-buffer
+;;     (insert-file-contents "~/.emacs.d/packages/quelpa/bootstrap.el")
+;;     (message "TEST")
+;;     (eval-buffer)))
+
+;; ;; quelpa
 ;; Load quelpa using use-package
 ;; quelmap repository is cloned manually
 (use-package quelpa
   :load-path "~/.emacs.d/packages/quelpa"
-  :config
+  :init
+  (setq quelpa-update-melpa-p nil)
   (setq quelpa-checkout-melpa-p nil)) ; don't use melpa!
 
 ;; quelpa-use-package
