@@ -170,6 +170,6 @@
 
 ;; yasnippet-snippets
 (use-package yasnippet-snippets
-  :quelpa (yasnippet-snippets :fetcher github :repo "AndreaCrotti/yasnippet-snippets")
-  :config
+  :path "~/.emacs.d/packages/yasnippets-snippets"
+  :init
   (yas-global-mode 1))
