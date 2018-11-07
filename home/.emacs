@@ -14,7 +14,7 @@
  '(custom-enabled-themes (quote (misterioso)))
  '(package-selected-packages
    (quote
-    (evil goto-chg yasnippet lsp-ui lsp-mode chess helm-ebdb org-edna)))
+    (faceup flycheck company-lsp heml helm-core yasnippet yasnippets evil goto-chg lsp-ui lsp-mode chess helm-ebdb org-edna)))
  '(tls-checktrust t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -31,7 +31,7 @@
 (setq inhibit-splash-screen t)
 
 ;; Uncomment this to debug use-package loading packages
-(setq use-package-verbose 'debug)
+;; (setq use-package-verbose 'debug)
 
 ;; Uncomment this to use edebug
 ;; (setq debug-on-error t)
@@ -48,7 +48,6 @@
 ;;     (quelpa-self-upgrade)
 ;;   (with-temp-buffer
 ;;     (insert-file-contents "~/.emacs.d/packages/quelpa/bootstrap.el")
-;;     (message "TEST")
 ;;     (eval-buffer)))
 
 ;; ;; quelpa

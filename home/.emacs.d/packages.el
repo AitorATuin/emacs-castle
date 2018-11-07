@@ -168,8 +168,46 @@
   ;; (define-key evil-normal-state-map (kbd "C-k") 'evil-window-top)
   ;; (define-key evil-normal-state-map (kbd "C-j") 'evil-window-bottom))
 
+(use-package yasnippet
+  :quelpa (yasnippet :fetcher github :repo "joaotavora/yasnippet")
+  :config
+  (yas-global-mode 1))
+
 ;; yasnippet-snippets
 (use-package yasnippet-snippets
-  :path "~/.emacs.d/packages/yasnippets-snippets"
-  :init
+  :load-path "~/.emacs.d/packages/yasnippet-snippets"
+  :config
   (yas-global-mode 1))
+
+;; (use-package helm-core
+;;   :quelpa (helm-core :fetcher github :repo "emacs-helm/helm"))
+
+(use-package helm
+  :quelpa (helm :fetcher github :repo "emacs-helm/helm")
+  :config
+  (setq default-frame-alist '((vertical-scroll-bars . nil)
+                              (tool-bar-lines . 0)
+                              (menu-bar-lines . 0)
+                              (fullscreen . nil)))
+  (blink-cursor-mode -1)
+  (require 'helm-config)
+  (helm-mode 1)
+  (define-key global-map [remap find-file] 'helm-find-files)
+  (define-key global-map [remap occur] 'helm-occur)
+  (define-key global-map [remap list-buffers] 'helm-buffers-list)
+  (define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+  (define-key global-map [remap execute-extended-command] 'helm-M-x)
+  (unless (boundp 'completion-in-region-function)
+    (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+    (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
+
+(use-package faceup
+  :quelpa (faceup :fetcher github :repo "Lindydancer/faceup"))
+
+(use-package racket-mode
+  :load-path "~/.emacs.d/packages/racket-mode"
+  :after (faceup)
+  :config
+  (require 'racket-unicode-input-method)
+  (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+  (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable))
