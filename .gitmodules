@@ -7,6 +7,6 @@
 [submodule "yasnippet-snippets"]
 	path = yasnippet-snippets
 	url = https://github.com/AndreaCrotti/yasnippet-snippets.git
-[submodule "racket-mode"]
-	path = racket-mode
-	url = https://github.com/greghendershott/racket-mode.git
+[submodule "geiser"]
+	path = geiser
+	url = git://git.sv.gnu.org/geiser.git

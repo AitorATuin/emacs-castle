@@ -62,7 +62,7 @@
    lsp-python "python"
    (lambda ()
      (let ((root (funcall #'projectile-project-root)))
-       (cond ((eq root nil) (py-lsp-root-init pwd))
+       (cond ((eq root nil) (py-lsp-root-init (pwd)))
 	     (t (py-lsp-root-init root)))))
    '("pyls" "--log-file" "/home/atuin/.local/log/pyls.log"))
   (lsp-define-stdio-client
@@ -201,13 +201,5 @@
     (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
     (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
 
-(use-package faceup
-  :quelpa (faceup :fetcher github :repo "Lindydancer/faceup"))
-
-(use-package racket-mode
-  :load-path "~/.emacs.d/packages/racket-mode"
-  :after (faceup)
-  :config
-  (require 'racket-unicode-input-method)
-  (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
-  (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable))
+(use-package geiser
+  :load-path "~/.emacs.d/packages/geiser/elisp")
