@@ -1,9 +1,51 @@
-;; Define what packages do we use using quelpa and use-package
-(defmacro use-package-github (provides repo code)
-  `(use-package ,provides
-     :ensure t
-     :quelpa (,provides :fetcher github :repo ,repo)
-     ,@code))
+(use-package atuin-settings
+  :init
+  (load-theme 'misterioso)
+  ;; global flags
+  (setq
+   inhibit-splash-screen t
+   ;; Enable always tls checks
+   tls-checktrust t
+   ansi-color-faces-vector [default default default italic underline success warning error]
+   ;; custom-enabled-themes '(misterioso)
+   package-selected-packages '(faceup flycheck company-lsp heml helm-core yasnippet yasnippets evil goto-chg lsp-ui lsp-mode chess helm-ebdb org-edna)
+   ;; org-mode settings
+   org-log-done 'time
+   ;; Debug options
+   use-package-verbose nil ;; Set to 'debug to debug
+   debug-on-error nil ;; edebug
+   debug-on-quit nil  ;; edebug
+   use-package-expand-minimally t)
+  (provide 'atuin-settings)
+
+  :config
+  ;; Theme font
+  (custom-set-faces
+   '(default ((t (:family "Ubuntu Mono derivative Powerline" :foundry "DAMA" :slant normal :weight normal :height 98 :width normal)))))
+
+  ;; Disable some modes
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (transient-mark-mode 1))
+
+(use-package atuin-key-bindings
+  :init
+  (provide 'atuin-key-bindings)
+  :config
+  ;; org-mode bindings
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda))
+
+(use-package atuin-macros
+  :init
+  (provide 'atuin-macros)
+  :config
+  (defmacro use-package-github (provides repo code)
+    `(use-package ,provides
+       :ensure t
+       :quelpa (,provides :fetcher github :repo ,repo)
+       ,@code)))
 
 ;; popup-el
 (use-package popup
@@ -32,29 +74,24 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
-(defun some-files (file-candidates)
-  (filter #'file-exists-p file-candidates))
-
-(defun some-file (file-candidates)
-  (car (some-files file-candidates)))
-
-;; python lsp configuration
-(defun py-requirements-file (requirements-candidates)
-  (some-files requirements-candidates))
-
-(defun py-create-venv (path) nil)
-
-(defun py-lsp-root-init (root)
-  root)
-
-;; elixir lsp configuration
-(defun ex-lsp-root-init (root)
-  root)
-
 ;; lsp-mode package
 (use-package lsp-mode
   :quelpa (lsp-mode :fetcher github :repo "emacs-lsp/lsp-mode")
   :after (lsp-ui projectile)
+  :init
+  (defun some-files (file-candidates)
+    (filter #'file-exists-p file-candidates))
+  (defun some-file (file-candidates)
+    (car (some-files file-candidates)))
+  ;; python lsp configuration
+  (defun py-requirements-file (requirements-candidates)
+    (some-files requirements-candidates))
+  (defun py-create-venv (path) nil)
+  (defun py-lsp-root-init (root)
+    root)
+  ;; elixir lsp configuration
+  (defun ex-lsp-root-init (root)
+    root)
   :config
   (require 'lsp-imenu)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
@@ -148,12 +185,6 @@
   (require 'elixir-mode)
   (add-to-list 'auto-mode-alist '("\\.ex\\'" . elixir-mode)))
 
-;; rebecca-theme
-(use-package rebecca-theme
-  :quelpa (rebecca-theme :fetcher github :repo "vic/rebecca-theme")
-  :config
-  (load-theme #'rebecca t))
-
 (use-package goto-chg
   :quelpa (goto-chg :fetcher github :repo "emacs-evil/goto-chg"))
 
@@ -203,3 +234,8 @@
 
 (use-package geiser
   :load-path "~/.emacs.d/packages/geiser/elisp")
+
+(use-package org-bullets
+  :quelpa (org-bullets :fetcher github :repo "sabof/org-bullets")
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
