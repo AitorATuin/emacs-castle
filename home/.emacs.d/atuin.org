@@ -144,3 +144,13 @@ Projectile allows to manage files inside projects so speed up searching inside t
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
+** helm
+Helm makes your life easier providing an elegant and easy way of navigating through menus.
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+:load-path "pkgs/helm"
+:config
+(global-set-key (kbd "M-x") 'helm-M-x)
+(helm-mode 1))
+#+END_SRC
