@@ -1,0 +1,9 @@
+[submodule "cyberpunk-theme.el"]
+	path = cyberpunk-theme.el
+	url = https://github.com/n3mo/cyberpunk-theme.el.git
+[submodule "diminish.el"]
+	path = diminish.el
+	url = https://github.com/myrjola/diminish.el.git
+[submodule "use-package"]
+	path = use-package
+	url = https://github.com/jwiegley/use-package.git
