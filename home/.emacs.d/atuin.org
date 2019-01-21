@@ -2,37 +2,42 @@
 The first thing we should do is bootstrap use-package now since we will use it 
 
 #+BEGIN_SRC emacs-lisp
-;;; Bootstrap use-package
-;; Install use-package if it's not already installed.
-;; use-package is used to configure the rest of the packages.
-(add-to-list 'load-path (expand-file-name "pkgs/use-package" 
-                                          user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "pkgs/diminish.el" 
-                                          user-emacs-directory))
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
+  ;;; Bootstrap use-package
+  ;; Install use-package if it's not already installed.
+  ;; use-package is used to configure the rest of the packages.
+  (add-to-list 'load-path (expand-file-name "pkgs/use-package" 
+					    user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "pkgs/diminish.el" 
+					    user-emacs-directory))
+  (eval-when-compile
+    (require 'use-package))
+  (require 'diminish)                ;; if you use :diminish
+  (require 'bind-key)                ;; if you use any :bind variant
 #+END_SRC
-
 
 * Basic settings
 
 ** Remove decorations from the window
 I like to have a clean view (similar to the one I used to have in vim).
 #+BEGIN_SRC emacs-lisp
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(tooltip-mode 0)
-(setq inhibit-startup-buffer-menu t)
-(setq inhibit-startup-screen t)
-(setq inhibit-startup-echo-area-message "locutus")
-(setq initial-buffer-choice nil)
-(setq initial-scratch-message "")
-(setq package-enable-at-startup nil)
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (tooltip-mode 0)
+  (setq inhibit-startup-buffer-menu t
+	inhibit-startup-screen t
+	inhibit-startup-echo-area-message "locutus"
+	initial-buffer-choice nil
+	initial-scratch-message ""
+	package-enable-at-startup nil)
 #+END_SRC
 
+** Some default paths
+Save the backup files inside _user-emacs-directory_ so we don't let leftovers all around the file system.
+#+BEGIN_SRC emacs-lisp
+  (setq save-place-file (concat user-emacs-directory "places")
+	backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+#+END_SRC
 
 * Theming
 
@@ -115,10 +120,10 @@ We use *use-package* to create a `package on the fly`.
 I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cyberpunk-theme.el]].
 
 #+BEGIN_SRC emacs-lisp
-(use-package cyberpunk-theme
-:load-path "/home/atuin/.emacs.d/pkgs/cyberpunk-theme.el"
-:config
-(load-theme 'cyberpunk t))
+  (use-package cyberpunk-theme
+    :load-path "/home/atuin/.emacs.d/pkgs/cyberpunk-theme.el"
+    :config
+    (load-theme 'cyberpunk t))
 #+END_SRC
 
 
@@ -127,59 +132,59 @@ I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cy
 I'm used to vim bindings so let's use evil to make my life easier.
 
 #+BEGIN_SRC emacs-lisp 
-(use-package evil
-:load-path "pkgs/evil"
-:config
-(evil-mode 1))
+  (use-package evil
+    :load-path "pkgs/evil"
+    :config
+    (evil-mode 1))
 #+END_SRC
 
 ** projectile
 Projectile allows to manage files inside projects so speed up searching inside them or doing actions based on projects.
 
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-:load-path "pkgs/projectile"
-:config
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (use-package projectile
+    :load-path "pkgs/projectile"
+    :config
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
 ** helm
 Helm makes your life easier providing an elegant and easy way of navigating through menus.
 
 #+BEGIN_SRC emacs-lisp
-(use-package helm
-:load-path "pkgs/helm"
-:after (popup async)
-:config
-(blink-cursor-mode -1)
-(require 'helm-config)
-(helm-mode 1)
-(define-key global-map [remap find-file] 'helm-find-files)
-(define-key global-map [remap occur] 'helm-occur)
-(define-key global-map [remap list-buffers] 'helm-buffers-list)
-(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
-(define-key global-map [remap execute-extended-command] 'helm-M-x)
-(unless (boundp 'completion-in-region-function)
-  (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
-  (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
+  (use-package helm
+    :load-path "pkgs/helm"
+    :after (popup async)
+    :config
+    (blink-cursor-mode -1)
+    (require 'helm-config)
+    (helm-mode 1)
+    (define-key global-map [remap find-file] 'helm-find-files)
+    (define-key global-map [remap occur] 'helm-occur)
+    (define-key global-map [remap list-buffers] 'helm-buffers-list)
+    (define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+    (define-key global-map [remap execute-extended-command] 'helm-M-x)
+    (unless (boundp 'completion-in-region-function)
+      (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+      (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
 #+END_SRC
 
 ** popup-el
 Popup-el is a visual interface popup for emacs. It's required by helm.
 
 #+BEGIN_SRC emacs-lisp
-(use-package popup :load-path "pkgs/popup-el")
+  (use-package popup :load-path "pkgs/popup-el")
 #+END_SRC
 
 ** emacs-async
 Simple library for asynchronous processing in Emacs
 
 #+BEGIN_SRC emacs-lisp
-(use-package async
-:load-path "pkgs/emacs-async"
-:config
-(autoload 'dired-async-mode "dired-async.el" nil t)
-(dired-async-mode 1))
+  (use-package async
+    :load-path "pkgs/emacs-async"
+    :config
+    (autoload 'dired-async-mode "dired-async.el" nil t)
+    (dired-async-mode 1))
 #+END_SRC
 
