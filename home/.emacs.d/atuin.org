@@ -150,7 +150,19 @@ Helm makes your life easier providing an elegant and easy way of navigating thro
 #+BEGIN_SRC emacs-lisp
 (use-package helm
 :load-path "pkgs/helm"
+:after (popup-el)
 :config
 (global-set-key (kbd "M-x") 'helm-M-x)
 (helm-mode 1))
 #+END_SRC
+
+** popup-el
+Popup-el is a visual interface popup for emacs. It's required by helm.
+
+#+BEGIN_SRC emacs-lisp
+(use-package popup-el :load-path "pkgs/popup-el")
+#+END_SRC
+
+** emacs-async
+Simple library for asynchronous processing in Emacs
+
