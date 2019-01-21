@@ -19,3 +19,6 @@
 [submodule "popup-el"]
 	path = popup-el
 	url = https://github.com/auto-complete/popup-el.git
+[submodule "emacs-async"]
+	path = emacs-async
+	url = https://github.com/jwiegley/emacs-async.git
