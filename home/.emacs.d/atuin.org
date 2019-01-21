@@ -150,17 +150,26 @@ Helm makes your life easier providing an elegant and easy way of navigating thro
 #+BEGIN_SRC emacs-lisp
 (use-package helm
 :load-path "pkgs/helm"
-:after (popup-el)
+:after (popup async)
 :config
-(global-set-key (kbd "M-x") 'helm-M-x)
-(helm-mode 1))
+(blink-cursor-mode -1)
+(require 'helm-config)
+(helm-mode 1)
+(define-key global-map [remap find-file] 'helm-find-files)
+(define-key global-map [remap occur] 'helm-occur)
+(define-key global-map [remap list-buffers] 'helm-buffers-list)
+(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+(define-key global-map [remap execute-extended-command] 'helm-M-x)
+(unless (boundp 'completion-in-region-function)
+  (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+  (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
 #+END_SRC
 
 ** popup-el
 Popup-el is a visual interface popup for emacs. It's required by helm.
 
 #+BEGIN_SRC emacs-lisp
-(use-package popup-el :load-path "pkgs/popup-el")
+(use-package popup :load-path "pkgs/popup-el")
 #+END_SRC
 
 ** emacs-async
