@@ -7,3 +7,6 @@
 [submodule "use-package"]
 	path = use-package
 	url = https://github.com/jwiegley/use-package.git
+[submodule "evil"]
+	path = evil
+	url = https://github.com/emacs-evil/evil.git

@@ -120,3 +120,14 @@ I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cy
 :config
 (load-theme 'cyberpunk t))
 #+END_SRC
+
+
+* Evil 
+I'm used to vim bindings so let's use evil to make my life easier.
+
+#+BEGIN_SRC emacs-lisp 
+(use-package evil
+:load-path "pkgs/evil"
+:config
+(evil-mode 1))
+#+END_SRC
