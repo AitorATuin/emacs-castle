@@ -37,7 +37,7 @@ I like to have a clean view (similar to the one I used to have in vim).
 * Theming
 
 ** Font
-I mostly write code, snippets or techincal documentation using emacs so 
+I mostly write code, snippets or technical documentation using emacs so
 let's have a nice coding font [[https://github.com/tonsky/FiraCode][FiraCode]].
 
 Since emacs does not support [[https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632][ligatures]] we need to use
