@@ -122,7 +122,8 @@ I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cy
 #+END_SRC
 
 
-* Evil 
+* Some packages 
+** evil!!!!
 I'm used to vim bindings so let's use evil to make my life easier.
 
 #+BEGIN_SRC emacs-lisp 
@@ -130,4 +131,16 @@ I'm used to vim bindings so let's use evil to make my life easier.
 :load-path "pkgs/evil"
 :config
 (evil-mode 1))
+#+END_SRC
+
+** projectile
+Projectile allows to manage files inside projects so speed up searching inside them or doing actions based on projects.
+
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+:load-path "pkgs/projectile"
+:config
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC

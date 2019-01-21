@@ -10,3 +10,6 @@
 [submodule "evil"]
 	path = evil
 	url = https://github.com/emacs-evil/evil.git
+[submodule "projectile"]
+	path = projectile
+	url = https://github.com/bbatsov/projectile.git
