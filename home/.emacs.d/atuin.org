@@ -1,0 +1,122 @@
+* use-package
+The first thing we should do is bootstrap use-package now since we will use it 
+
+#+BEGIN_SRC emacs-lisp
+;;; Bootstrap use-package
+;; Install use-package if it's not already installed.
+;; use-package is used to configure the rest of the packages.
+(add-to-list 'load-path (expand-file-name "pkgs/use-package" 
+                                          user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "pkgs/diminish.el" 
+                                          user-emacs-directory))
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
+#+END_SRC
+
+
+* Basic settings
+
+** Remove decorations from the window
+I like to have a clean view (similar to the one I used to have in vim).
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(tooltip-mode 0)
+(setq inhibit-startup-buffer-menu t)
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-echo-area-message "locutus")
+(setq initial-buffer-choice nil)
+(setq initial-scratch-message "")
+(setq package-enable-at-startup nil)
+#+END_SRC
+
+
+* Theming
+
+** Font
+I mostly write code, snippets or techincal documentation using emacs so 
+let's have a nice coding font [[https://github.com/tonsky/FiraCode][FiraCode]].
+
+Since emacs does not support [[https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632][ligatures]] we need to use
+patched font with *prettify-symbols*. 
+
+We use *use-package* to create a `package on the fly`.
+
+#+BEGIN_SRC emacs-lisp
+(use-package fira-code-mode
+:init
+(defun fira-code-mode--make-alist (list)
+  "Generate prettify-symbols alist from LIST."
+  (let ((idx -1))
+    (mapcar
+     (lambda (s)
+       (setq idx (1+ idx))
+       (let* ((code (+ #Xe100 idx))
+          (width (string-width s))
+          (prefix ())
+          (suffix '(?\s (Br . Br)))
+          (n 1))
+     (while (< n width)
+       (setq prefix (append prefix '(?\s (Br . Bl))))
+       (setq n (1+ n)))
+     (cons s (append prefix suffix (list (decode-char 'ucs code))))))
+     list)))
+
+(defconst fira-code-mode--ligatures
+  '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
+    "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
+    "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
+    "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
+    ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
+    "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
+    "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
+    "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
+    ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
+    "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
+    "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
+    "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
+    "x" ":" "+" "+" "*"))
+
+(defvar fira-code-mode--old-prettify-alist)
+
+(defun fira-code-mode--enable ()
+  "Enable Fira Code ligatures in current buffer."
+  (setq-local fira-code-mode--old-prettify-alist prettify-symbols-alist)
+  (setq-local prettify-symbols-alist (append (fira-code-mode--make-alist fira-code-mode--ligatures) fira-code-mode--old-prettify-alist))
+  (prettify-symbols-mode t))
+
+(defun fira-code-mode--disable ()
+  "Disable Fira Code ligatures in current buffer."
+  (setq-local prettify-symbols-alist fira-code-mode--old-prettify-alist)
+  (prettify-symbols-mode -1))
+
+(define-minor-mode fira-code-mode
+  "Fira Code ligatures minor mode"
+  :lighter " Fira Code"
+  (setq-local prettify-symbols-unprettify-at-point 'right-edge)
+  (if fira-code-mode
+      (fira-code-mode--enable)
+    (fira-code-mode--disable)))
+
+(defun fira-code-mode--setup ()
+  "Setup Fira Code Symbols"
+  (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
+
+(setq prettify-symbols-unprettify-at-point 'right-edge)
+
+(provide 'fira-code-mode))
+#+END_SRC
+
+** Theme
+
+I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cyberpunk-theme.el]].
+
+#+BEGIN_SRC emacs-lisp
+(use-package cyberpunk-theme
+:load-path "/home/atuin/.emacs.d/pkgs/cyberpunk-theme.el"
+:config
+(load-theme 'cyberpunk t))
+#+END_SRC
