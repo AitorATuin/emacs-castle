@@ -136,6 +136,7 @@ I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cy
     (load-theme 'spacemacs-dark t))
 #+END_SRC
 
+
 * Some packages 
 ** evil!!!!
 I'm used to vim bindings so let's use evil to make my life easier.
@@ -232,4 +233,12 @@ Autocomplete everything!
     :load-path "pkgs/company-mode"
     :config
     (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+** dash
+A modern list library for Emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package dash
+  :load-path "pkgs/dash.el")
+  (use-package dash-functional
+  :load-path "pkgs/dash.el")
 #+END_SRC

@@ -34,3 +34,9 @@
 [submodule "spacemacs-theme"]
 	path = spacemacs-theme
 	url = https://github.com/nashamri/spacemacs-theme.git
+[submodule "spaceline"]
+	path = spaceline
+	url = https://github.com/TheBB/spaceline.git
+[submodule "dash.el"]
+	path = dash.el
+	url = https://github.com/magnars/dash.el.git
