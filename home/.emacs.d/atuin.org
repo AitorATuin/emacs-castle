@@ -201,3 +201,19 @@ Geiser is project to let emacs to talk scheme. It can be used with different sch
 					      user-emacs-directory))
     (provide 'geiser-load))
 #+END_SRC
+** paredit
+Paredit helps *keep parethesis balanced*.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :load-path "pkgs/paredit"
+    :config
+    (autoload 'enable-paredit-mode "paredit"
+      "Turn on pseudo-structural editing of Lisp code." t)
+    (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook #'enable-paredit-mode)
+    (add-hook 'lisp-iteraction-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook #'enable-paredit-mode))
+#+END_SRC

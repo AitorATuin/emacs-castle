@@ -25,3 +25,6 @@
 [submodule "geiser"]
 	path = geiser
 	url = https://gitlab.com/jaor/geiser.git
+[submodule "paredit"]
+	path = paredit
+	url = https://github.com/emacsmirror/paredit
