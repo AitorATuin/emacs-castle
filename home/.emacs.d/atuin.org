@@ -253,3 +253,11 @@ The long lost Emacs string manipulation library.
   (use-package powerline
     :load-path "pkgs/powerline")
 #+END_SRC
+** spaceline
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline-config
+    :load-path "pkgs/spaceline"
+    :after (dash s powerline)
+    :config
+    (spaceline-spacemacs-theme))
+#+END_SRC
