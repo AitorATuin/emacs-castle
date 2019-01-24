@@ -196,10 +196,8 @@ Geiser is project to let emacs to talk scheme. It can be used with different sch
   (use-package geiser
     :load-path "pkgs/geiser/elisp"
     :config
-    (require 'geiser)
     (setq geiser-scheme-dir (expand-file-name "pkgs/geiser/scheme"
-					      user-emacs-directory))
-    (provide 'geiser-load))
+					      user-emacs-directory)))
 #+END_SRC
 ** paredit
 Paredit helps *keep parethesis balanced*.
