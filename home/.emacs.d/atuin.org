@@ -189,3 +189,15 @@ Simple library for asynchronous processing in Emacs
     (dired-async-mode 1))
 #+END_SRC
 
+** geiser
+Geiser is project to let emacs to talk scheme. It can be used with different scheme implementations.
+
+#+begin_src emacs-lisp
+  (use-package geiser
+    :load-path "pkgs/geiser/elisp"
+    :config
+    (require 'geiser)
+    (setq geiser-scheme-dir (expand-file-name "pkgs/geiser/scheme"
+					      user-emacs-directory))
+    (provide 'geiser-load))
+#+END_SRC

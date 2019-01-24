@@ -22,3 +22,6 @@
 [submodule "emacs-async"]
 	path = emacs-async
 	url = https://github.com/jwiegley/emacs-async.git
+[submodule "geiser"]
+	path = geiser
+	url = https://gitlab.com/jaor/geiser.git
