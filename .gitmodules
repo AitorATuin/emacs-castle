@@ -40,3 +40,9 @@
 [submodule "dash.el"]
 	path = dash.el
 	url = https://github.com/magnars/dash.el.git
+[submodule "s.el"]
+	path = s.el
+	url = https://github.com/magnars/s.el.git
+[submodule "powerline"]
+	path = powerline
+	url = https://github.com/milkypostman/powerline.git
