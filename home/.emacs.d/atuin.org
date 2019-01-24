@@ -127,6 +127,14 @@ I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cy
     (load-theme 'cyberpunk t))
 #+END_SRC
 
+*** spacemacs-theme
+
+#+BEGIN_SRC emacs-lisp
+  (use-package spacemacs-dark-theme
+    :load-path "pkgs/spacemacs-theme"
+    :config
+    (load-theme 'spacemacs-dark t))
+#+END_SRC
 
 * Some packages 
 ** evil!!!!
