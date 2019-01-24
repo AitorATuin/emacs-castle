@@ -215,3 +215,13 @@ Paredit helps *keep parethesis balanced*.
     (add-hook 'lisp-iteraction-mode-hook #'enable-paredit-mode)
     (add-hook 'scheme-mode-hook #'enable-paredit-mode))
 #+END_SRC
+
+** company-mode
+Autocomplete everything!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :load-path "pkgs/company-mode"
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
