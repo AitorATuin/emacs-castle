@@ -117,7 +117,7 @@ We use *use-package* to create a `package on the fly`.
 #+END_SRC
 
 ** Theme
-
+*** cyberpunk-theme
 I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cyberpunk-theme.el]].
 
 #+BEGIN_SRC emacs-lisp
@@ -134,6 +134,17 @@ I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cy
     :load-path "pkgs/spacemacs-theme"
     :config
     (load-theme 'spacemacs-dark t))
+#+END_SRC
+
+*** all-the-icons
+Use icon fonts in emacs
+
+Even if [[*font-lock-plus][font-lock-plus]] is not a dependency *all-the-icons* can not show properly the fonts
+unless we load [[*font-lock-plus][font-lock-plus.]]
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :load-path "pkgs/all-the-icons.el"
+    :after (memoize font-lock+))
 #+END_SRC
 
 
@@ -260,4 +271,14 @@ The long lost Emacs string manipulation library.
     :after (dash s powerline)
     :config
     (spaceline-spacemacs-theme))
+#+END_SRC
+** emacs-memoize
+#+BEGIN_SRC emacs-lisp
+  (use-package memoize
+    :load-path "pkgs/emacs-memoize")
+#+END_SRC
+** font-lock-plus
+#+BEGIN_SRC emacs-lisp
+  (use-package font-lock+
+    :load-path "pkgs/font-lock-plus")
 #+END_SRC

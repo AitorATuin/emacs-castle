@@ -46,3 +46,12 @@
 [submodule "powerline"]
 	path = powerline
 	url = https://github.com/milkypostman/powerline.git
+[submodule "all-the-icons.el"]
+	path = all-the-icons.el
+	url = https://github.com/domtronn/all-the-icons.el.git
+[submodule "emacs-memoize"]
+	path = emacs-memoize
+	url = https://github.com/skeeto/emacs-memoize.git
+[submodule "font-lock-plus"]
+	path = font-lock-plus
+	url = https://github.com/emacsmirror/font-lock-plus.git
