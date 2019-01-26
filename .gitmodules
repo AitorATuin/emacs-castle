@@ -58,3 +58,6 @@
 [submodule "spaceline-all-the-icons.el"]
 	path = spaceline-all-the-icons.el
 	url = https://github.com/domtronn/spaceline-all-the-icons.el.git
+[submodule "ag.el"]
+	path = ag.el
+	url = https://github.com/Wilfred/ag.el.git

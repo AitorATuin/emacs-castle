@@ -294,3 +294,8 @@ The long lost Emacs string manipulation library.
   (use-package font-lock+
     :load-path "pkgs/font-lock-plus")
 #+END_SRC
+** ag.el
+#+BEGIN_SRC emacs-lisp
+  (use-package ag
+    :load-path "pkgs/ag.el")
+#+END_SRC
