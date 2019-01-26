@@ -150,12 +150,12 @@ unless we load [[*font-lock-plus][font-lock-plus.]]
 
 *** spaceline-all-the-icons
 #+BEGIN_SRC emacs-lisp
-   (use-package spaceline-all-the-icons
-     :load-path "pkgs/spaceline-all-the-icons.el"
-     :after (spaceline memoize all-the-icons)
-     :config
-     (spaceline-all-the-icons-theme)
-     (setq spaceline-all-the-icons-separator-type 'arrow))
+  (use-package spaceline-all-the-icons
+    :load-path "pkgs/spaceline-all-the-icons.el"
+    :after (spaceline memoize all-the-icons)
+    :config
+    (spaceline-all-the-icons-theme)
+    (setq spaceline-all-the-icons-separator-type 'none))
 #+END_SRC
 
 
@@ -274,6 +274,7 @@ The long lost Emacs string manipulation library.
 #+BEGIN_SRC emacs-lisp
   (use-package powerline
     :load-path "pkgs/powerline")
+
 #+END_SRC
 ** spaceline
 #+BEGIN_SRC emacs-lisp
