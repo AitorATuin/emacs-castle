@@ -203,6 +203,19 @@ Helm makes your life easier providing an elegant and easy way of navigating thro
       (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
 #+END_SRC
 
+** helm-projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-projectile
+    :load-path "pkgs/helm-projectile"
+    :after (helm-ag helm projectile)
+    :config (helm-projectile-on))
+#+END_SRC
+** helm-ag
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-ag
+    :load-path "pkgs/emacs-helm-ag")
+#+END_SRC
+
 ** popup-el
 Popup-el is a visual interface popup for emacs. It's required by helm.
 
@@ -306,5 +319,5 @@ The long lost Emacs string manipulation library.
 ** ag.el
 #+BEGIN_SRC emacs-lisp
   (use-package ag
-    :load-path "pkgs/ag.el")
+  :load-path "pkgs/ag.el")
 #+END_SRC

@@ -61,3 +61,9 @@
 [submodule "ag.el"]
 	path = ag.el
 	url = https://github.com/Wilfred/ag.el.git
+[submodule "helm-projectile"]
+	path = helm-projectile
+	url = https://github.com/bbatsov/helm-projectile.git
+[submodule "emacs-helm-ag"]
+	path = emacs-helm-ag
+	url = https://github.com/syohex/emacs-helm-ag
