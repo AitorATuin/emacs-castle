@@ -181,6 +181,7 @@ Projectile allows to manage files inside projects so speed up searching inside t
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 #+END_SRC
+
 ** helm
 Helm makes your life easier providing an elegant and easy way of navigating through menus.
 
@@ -230,6 +231,7 @@ Geiser is project to let emacs to talk scheme. It can be used with different sch
     (setq geiser-scheme-dir (expand-file-name "pkgs/geiser/scheme"
 					      user-emacs-directory)))
 #+END_SRC
+
 ** paredit
 Paredit helps *keep parethesis balanced*.
 
@@ -256,6 +258,7 @@ Autocomplete everything!
     :config
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
+
 ** dash
 A modern list library for Emacs
 #+BEGIN_SRC emacs-lisp
@@ -264,18 +267,20 @@ A modern list library for Emacs
   (use-package dash-functional
   :load-path "pkgs/dash.el")
 #+END_SRC
+
 ** s.el
 The long lost Emacs string manipulation library.
 #+BEGIN_SRC emacs-lisp
   (use-package s
     :load-path "pkgs/s.el")
 #+END_SRC
+
 ** powerline
 #+BEGIN_SRC emacs-lisp
   (use-package powerline
     :load-path "pkgs/powerline")
-
 #+END_SRC
+
 ** spaceline
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline-config
@@ -284,16 +289,20 @@ The long lost Emacs string manipulation library.
     :config
     (spaceline-spacemacs-theme))
 #+END_SRC
+
 ** emacs-memoize
 #+BEGIN_SRC emacs-lisp
   (use-package memoize
     :load-path "pkgs/emacs-memoize")
+
 #+END_SRC
+
 ** font-lock-plus
 #+BEGIN_SRC emacs-lisp
   (use-package font-lock+
     :load-path "pkgs/font-lock-plus")
 #+END_SRC
+
 ** ag.el
 #+BEGIN_SRC emacs-lisp
   (use-package ag
