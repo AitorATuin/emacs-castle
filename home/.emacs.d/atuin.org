@@ -15,9 +15,7 @@ The first thing we should do is bootstrap use-package now since we will use it
   (require 'bind-key)                ;; if you use any :bind variant
 #+END_SRC
 
-
 * Basic settings
-
 ** Remove decorations from the window
 I like to have a clean view (similar to the one I used to have in vim).
 #+BEGIN_SRC emacs-lisp
@@ -40,6 +38,10 @@ Save the backup files inside _user-emacs-directory_ so we don't let leftovers al
 	backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
 #+END_SRC
 
+These variables can be used to debug emacs startup
+#+BEGIN_SRC emacs-lisp
+  (setq use-package-verbose nil)
+#+END_SRC
 
 * Theming
 ** Font
@@ -148,16 +150,6 @@ unless we load [[*font-lock-plus][font-lock-plus.]]
     :after (memoize font-lock+))
 #+END_SRC
 
-*** spaceline-all-the-icons
-#+BEGIN_SRC emacs-lisp
-  (use-package spaceline-all-the-icons
-    :load-path "pkgs/spaceline-all-the-icons.el"
-    :after (spaceline memoize all-the-icons)
-    :config
-    (spaceline-all-the-icons-theme)
-    (setq spaceline-all-the-icons-separator-type 'none))
-#+END_SRC
-
 
 * Some packages 
 ** evil!!!!
@@ -213,6 +205,7 @@ Helm makes your life easier providing an elegant and easy way of navigating thro
 ** helm-ag
 #+BEGIN_SRC emacs-lisp
   (use-package helm-ag
+    :after (async)
     :load-path "pkgs/emacs-helm-ag")
 #+END_SRC
 
@@ -300,7 +293,7 @@ The long lost Emacs string manipulation library.
     :load-path "pkgs/spaceline"
     :after (dash s powerline)
     :config
-    (spaceline-spacemacs-theme))
+    (spaceline-helm-mode 1))
 #+END_SRC
 
 ** emacs-memoize
@@ -321,3 +314,40 @@ The long lost Emacs string manipulation library.
   (use-package ag
   :load-path "pkgs/ag.el")
 #+END_SRC
+** perspeen
+Use workspaces in emacs. It allows also tabs per workspace.
+#+BEGIN_SRC emacs-lisp
+  (use-package perspeen
+    :load-path "pkgs/perspeen"
+    :after (powerline)
+    :init
+    (setq perspeen-use-tab t)
+    (setq perspeen-keymap-prefix (kbd "C-c C-'"))
+    :config
+    (perspeen-mode))
+#+END_SRC
+** magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :load-path "pkgs/magit/lisp"
+    :after (magic-popup with-editor))
+#+END_SRC
+** magit-popup
+#+BEGIN_SRC emacs-lisp
+  (use-package magit-popup
+    :load-path "pkgs/magit-popup")
+#+END_SRC
+** with-editor
+#+BEGIN_SRC emacs-lisp
+    (use-package with-editor
+      :load-path "pkgs/with-editor")
+#+END_SRC
+
+** eyeliner
+#+BEGIN_SRC emacs-lisp
+  (use-package eyeliner
+    :load-path "pkgs/eyeliner"
+    :config
+    (eyeliner/install))
+#+END_SRC
+

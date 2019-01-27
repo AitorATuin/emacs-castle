@@ -55,9 +55,6 @@
 [submodule "font-lock-plus"]
 	path = font-lock-plus
 	url = https://github.com/emacsmirror/font-lock-plus.git
-[submodule "spaceline-all-the-icons.el"]
-	path = spaceline-all-the-icons.el
-	url = https://github.com/domtronn/spaceline-all-the-icons.el.git
 [submodule "ag.el"]
 	path = ag.el
 	url = https://github.com/Wilfred/ag.el.git
@@ -67,3 +64,18 @@
 [submodule "emacs-helm-ag"]
 	path = emacs-helm-ag
 	url = https://github.com/syohex/emacs-helm-ag
+[submodule "perspeen"]
+	path = perspeen
+	url = https://github.com/seudut/perspeen.git
+[submodule "magit-popup"]
+	path = magit-popup
+	url = https://github.com/magit/magit-popup.git
+[submodule "with-editor"]
+	path = with-editor
+	url = https://github.com/magit/with-editor.git
+[submodule "magit"]
+	path = magit
+	url = https://github.com/magit/magit.git
+[submodule "eyeliner"]
+	path = eyeliner
+	url = https://github.com/dustinlacewell/eyeliner.git
