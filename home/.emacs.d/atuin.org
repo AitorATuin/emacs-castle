@@ -150,7 +150,6 @@ unless we load [[*font-lock-plus][font-lock-plus.]]
     :after (memoize font-lock+))
 #+END_SRC
 
-
 * Some packages 
 ** evil!!!!
 I'm used to vim bindings so let's use evil to make my life easier.
@@ -330,7 +329,9 @@ Use workspaces in emacs. It allows also tabs per workspace.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :load-path "pkgs/magit/lisp"
-    :after (magic-popup with-editor))
+    :after (magic-popup with-editor ghub treepy)
+    :config
+    (require 'magit))
 #+END_SRC
 ** magit-popup
 #+BEGIN_SRC emacs-lisp
@@ -347,7 +348,30 @@ Use workspaces in emacs. It allows also tabs per workspace.
 #+BEGIN_SRC emacs-lisp
   (use-package eyeliner
     :load-path "pkgs/eyeliner"
+    :after (magit)
     :config
     (eyeliner/install))
 #+END_SRC
 
+** ghub
+Github API client, required by magit.
+#+BEGIN_SRC emacs-lisp
+  (use-package ghub
+    :after (graphql)
+    :load-path "pkgs/ghub")
+#+END_SRC
+
+** treepy.el
+Tree traversing tools for emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package treepy
+    :load-path "pkgs/treepy.el")
+#+END_SRC
+
+** graphql.el
+Functions to interact with GraphQL services.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package graphql
+    :load-path "pkgs/graphql.el")
+#+END_SRC

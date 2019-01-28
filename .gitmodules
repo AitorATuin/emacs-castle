@@ -79,3 +79,12 @@
 [submodule "eyeliner"]
 	path = eyeliner
 	url = https://github.com/dustinlacewell/eyeliner.git
+[submodule "ghub"]
+	path = ghub
+	url = https://github.com/magit/ghub.git
+[submodule "graphql.el"]
+	path = graphql.el
+	url = https://github.com/vermiculus/graphql.el.git
+[submodule "treepy.el"]
+	path = treepy.el
+	url = https://github.com/volrath/treepy.el.git
