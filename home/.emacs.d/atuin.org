@@ -350,6 +350,7 @@ Use workspaces in emacs. It allows also tabs per workspace.
     :load-path "pkgs/eyeliner"
     :after (magit)
     :config
+    (require 'eyeliner)
     (eyeliner/install))
 #+END_SRC
 
@@ -374,4 +375,13 @@ Functions to interact with GraphQL services.
 #+BEGIN_SRC emacs-lisp
   (use-package graphql
     :load-path "pkgs/graphql.el")
+#+END_SRC
+** racket-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package racket-mode
+    :load-path "pkgs/racket-mode"
+    :config
+    (add-hook 'racket-mode-hook
+	      (lambda ()
+		(define-key racket-mode-map (kbd "C-c r") 'racket-run))))
 #+END_SRC
