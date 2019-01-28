@@ -344,16 +344,6 @@ Use workspaces in emacs. It allows also tabs per workspace.
       :load-path "pkgs/with-editor")
 #+END_SRC
 
-** eyeliner
-#+BEGIN_SRC emacs-lisp
-  (use-package eyeliner
-    :load-path "pkgs/eyeliner"
-    :after (magit)
-    :config
-    (require 'eyeliner)
-    (eyeliner/install))
-#+END_SRC
-
 ** ghub
 Github API client, required by magit.
 #+BEGIN_SRC emacs-lisp
@@ -384,4 +374,12 @@ Functions to interact with GraphQL services.
     (add-hook 'racket-mode-hook
 	      (lambda ()
 		(define-key racket-mode-map (kbd "C-c r") 'racket-run))))
+#+END_SRC
+** eyeliner
+#+BEGIN_SRC emacs-lisp
+  (use-package eyeliner
+    :load-path "pkgs/eyeliner"
+    :config
+    (require 'eyeliner)
+    (eyeliner/install))
 #+END_SRC
