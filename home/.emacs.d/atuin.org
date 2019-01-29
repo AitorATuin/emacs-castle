@@ -383,3 +383,40 @@ Functions to interact with GraphQL services.
     (require 'eyeliner)
     (eyeliner/install))
 #+END_SRC
+** elisp-refs
+#+BEGIN_SRC emacs-lisp
+    (use-package elisp-refs
+      :load-path "pkgs/elisp-refs"
+      :after (loop))
+#+END_SRC
+
+** loop.el
+#+BEGIN_SRC emacs-lisp
+  (use-package loop
+    :load-path "pkgs/loop.el")
+#+END_SRC
+
+** shut-up
+#+BEGIN_SRC emacs-lisp
+  (use-package shut-up
+    :load-path "pkgs/shut-up")
+#+END_SRC
+
+** f.el
+#+BEGIN_SRC emacs-lisp
+  (use-package f
+    :load-path "pkgs/f.el")
+#+END_SRC
+
+** helpful
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :load-path "pkgs/helpful"
+    :after (elisp-refs shut-up f s loop)
+    :bind (("C-h f" . helpful-callable)
+	   ("C-h v" . helpful-variable)
+	   ("C-h k" . helpful-key)
+	   ("C-h C-d" . helpful-at-point)
+	   ("C-h F" . helpful-function)
+	   ("C-h C" . helpful-command)))
+#+END_SRC

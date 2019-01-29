@@ -97,3 +97,18 @@
 [submodule "racket-mode"]
 	path = racket-mode
 	url = https://github.com/greghendershott/racket-mode.git
+[submodule "helpful"]
+	path = helpful
+	url = https://github.com/Wilfred/helpful.git
+[submodule "elisp-refs"]
+	path = elisp-refs
+	url = https://github.com/Wilfred/elisp-refs.git
+[submodule "loop.el"]
+	path = loop.el
+	url = https://github.com/Wilfred/loop.el.git
+[submodule "shut-up"]
+	path = shut-up
+	url = https://github.com/cask/shut-up.git
+[submodule "f.el"]
+	path = f.el
+	url = https://github.com/rejeep/f.el.git
