@@ -52,9 +52,25 @@ These variables can be used to debug emacs startup
     (global-set-key (kbd "C-c l") 'org-store-link)
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c c") 'org-capture)
+    (defconst org-template-todo
+      '(
+	("t" "Tasks")
+	("tl" "Todo [link]" entry (file+headline "todo.org" "Tasks")
+	 "* TODO %?\n %i\n %a")
+	("tt" "Todo" entry (file+headline "todo.org" "Tasks")
+	 "* TODO %?\n %i\n"))
+      "tasks entries")
+    (defconst org-template-journal
+      '("j" "Journal" entry (file+datetree "journal.org")
+	"* %?\Entered on %U\n %i\n %a")
+      "journal entry")
+    (defconst org-template-notes
+      '("n" "Note" entry (file+headline "" "Notes")
+	"* %?\n %T"))
     (setq
      org-default-notes-file (concat org-directory "/notes.org")
-     org-agenda-files `(,org-directory))
+     org-agenda-files `(,org-directory)
+     org-capture-templates `(,@org-template-todo ,org-template-journal))
     (provide 'atuin/org-config))
 #+END_SRC
 
