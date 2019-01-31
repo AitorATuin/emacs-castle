@@ -1,0 +1,463 @@
+* use-package
+The first thing we should do is bootstrap use-package now since we will use it 
+
+#+BEGIN_SRC emacs-lisp
+  ;;; Bootstrap use-package
+  ;; Install use-package if it's not already installed.
+  ;; use-package is used to configure the rest of the packages.
+  (add-to-list 'load-path (expand-file-name "pkgs/use-package" 
+					    user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "pkgs/diminish.el" 
+					    user-emacs-directory))
+  (eval-when-compile
+    (require 'use-package))
+  (require 'diminish)                ;; if you use :diminish
+  (require 'bind-key)                ;; if you use any :bind variant
+#+END_SRC
+
+* Basic settings
+** Remove decorations from the window
+I like to have a clean view (similar to the one I used to have in vim).
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (tooltip-mode 0)
+  (setq inhibit-startup-buffer-menu t
+	inhibit-startup-screen t
+	inhibit-startup-echo-area-message "locutus"
+	initial-buffer-choice nil
+	initial-scratch-message ""
+	package-enable-at-startup nil)
+#+END_SRC
+
+** Some default paths
+Save the backup files inside _user-emacs-directory_ so we don't let leftovers all around the file system.
+#+BEGIN_SRC emacs-lisp
+  (setq save-place-file (concat user-emacs-directory "places")
+	backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+#+END_SRC
+
+** Debug emacs
+These variables can be used to debug emacs startup
+#+BEGIN_SRC emacs-lisp
+  (setq use-package-verbose nil)
+#+END_SRC
+
+** Org configuration
+#+BEGIN_SRC emacs-lisp
+  (use-package atuin/org-config
+    :init
+    (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+    (global-set-key (kbd "C-c l") 'org-store-link)
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c c") 'org-capture)
+    (defconst org-template-todo
+      '(
+	("t" "Tasks")
+	("tl" "Todo [link]" entry (file+headline "todo.org" "Tasks")
+	 "* TODO %?\n %i\n %a")
+	("tt" "Todo" entry (file+headline "todo.org" "Tasks")
+	 "* TODO %?\n %i\n"))
+      "tasks entries")
+    (defconst org-template-journal
+      '("j" "Journal" entry (file+datetree "journal.org")
+	"* %?\Entered on %U\n %i\n %a")
+      "journal entry")
+    (defconst org-template-notes
+      '("n" "Note" entry (file+headline "" "Notes")
+	"* %?\n %T"))
+    (setq
+     org-default-notes-file (concat org-directory "/notes.org")
+     org-agenda-files `(,org-directory)
+     org-capture-templates `(,@org-template-todo ,org-template-journal))
+    (provide 'atuin/org-config))
+#+END_SRC
+
+* Theming
+** Font
+I mostly write code, snippets or technical documentation using emacs so
+let's have a nice coding font [[https://github.com/tonsky/FiraCode][FiraCode]].
+
+Since emacs does not support [[https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632][ligatures]] we need to use
+patched font with *prettify-symbols*. 
+
+We use *use-package* to create a `package on the fly`.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package fira-code-mode
+    :init
+    (defun fira-code-mode--make-alist (list)
+      "Generate prettify-symbols alist from LIST."
+      (let ((idx -1))
+	(mapcar
+	 (lambda (s)
+	   (setq idx (1+ idx))
+	   (let* ((code (+ #Xe100 idx))
+		  (width (string-width s))
+		  (prefix ())
+		  (suffix '(?\s (Br . Br)))
+		  (n 1))
+	     (while (< n width)
+	       (setq prefix (append prefix '(?\s (Br . Bl))))
+	       (setq n (1+ n)))
+	     (cons s (append prefix suffix (list (decode-char 'ucs code))))))
+	 list)))
+
+    (defconst fira-code-mode--ligatures
+      '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
+	"{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
+	"--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
+	"#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
+	".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
+	"/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
+	"|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
+	"===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
+	">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
+	"<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
+	"<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
+	"<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
+	"x" ":" "+" "+" "*"))
+
+    (defvar fira-code-mode--old-prettify-alist)
+
+    (defun fira-code-mode--enable ()
+      "Enable Fira Code ligatures in current buffer."
+      (setq-local fira-code-mode--old-prettify-alist prettify-symbols-alist)
+      (setq-local prettify-symbols-alist (append (fira-code-mode--make-alist fira-code-mode--ligatures) fira-code-mode--old-prettify-alist))
+      (prettify-symbols-mode t))
+
+    (defun fira-code-mode--disable ()
+      "Disable Fira Code ligatures in current buffer."
+      (setq-local prettify-symbols-alist fira-code-mode--old-prettify-alist)
+      (prettify-symbols-mode -1))
+
+    (define-minor-mode fira-code-mode
+      "Fira Code ligatures minor mode"
+      :lighter " Fira Code"
+      (setq-local prettify-symbols-unprettify-at-point 'right-edge)
+      (if fira-code-mode
+	  (fira-code-mode--enable)
+	(fira-code-mode--disable)))
+
+    (defun fira-code-mode--setup ()
+      "Setup Fira Code Symbols"
+      (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
+
+    (setq prettify-symbols-unprettify-at-point 'right-edge)
+
+    (provide 'fira-code-mode))
+#+END_SRC
+
+** Theme
+*** cyberpunk-theme
+I want to use a dark theme like [[https://github.com/n3mo/cyberpunk-theme.el][cyberpunk-theme.el]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package cyberpunk-theme
+    :load-path "/home/atuin/.emacs.d/pkgs/cyberpunk-theme.el"
+    :disabled t
+    :config
+    (load-theme 'cyberpunk t))
+#+END_SRC
+
+*** spacemacs-theme
+
+#+BEGIN_SRC emacs-lisp
+  (use-package spacemacs-dark-theme
+    :load-path "pkgs/spacemacs-theme"
+    :config
+    (load-theme 'spacemacs-dark t))
+#+END_SRC
+
+*** all-the-icons
+Use icon fonts in emacs
+
+Even if [[*font-lock-plus][font-lock-plus]] is not a dependency *all-the-icons* can not show properly the fonts
+unless we load [[*font-lock-plus][font-lock-plus.]]
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :load-path "pkgs/all-the-icons.el"
+    :after (memoize font-lock+))
+#+END_SRC
+
+* Some packages 
+** evil!!!!
+I'm used to vim bindings so let's use evil to make my life easier.
+
+#+BEGIN_SRC emacs-lisp 
+  (use-package evil
+    :load-path "pkgs/evil"
+    :config
+    (evil-mode 1))
+#+END_SRC
+
+** projectile
+Projectile allows to manage files inside projects so speed up searching inside them or doing actions based on projects.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :load-path "pkgs/projectile"
+    :config
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+#+END_SRC
+
+** helm
+Helm makes your life easier providing an elegant and easy way of navigating through menus.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :load-path "pkgs/helm"
+    :after (popup async)
+    :config
+    (blink-cursor-mode -1)
+    (require 'helm-config)
+    (helm-mode 1)
+    (define-key global-map [remap find-file] 'helm-find-files)
+    (define-key global-map [remap occur] 'helm-occur)
+    (define-key global-map [remap list-buffers] 'helm-buffers-list)
+    (define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+    (define-key global-map [remap execute-extended-command] 'helm-M-x)
+    (unless (boundp 'completion-in-region-function)
+      (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+      (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point)))
+#+END_SRC
+
+** helm-projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-projectile
+    :load-path "pkgs/helm-projectile"
+    :after (helm-ag helm projectile)
+    :config (helm-projectile-on))
+#+END_SRC
+** helm-ag
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-ag
+    :after (async)
+    :load-path "pkgs/emacs-helm-ag")
+#+END_SRC
+
+** popup-el
+Popup-el is a visual interface popup for emacs. It's required by helm.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package popup :load-path "pkgs/popup-el")
+#+END_SRC
+
+** emacs-async
+Simple library for asynchronous processing in Emacs
+
+#+BEGIN_SRC emacs-lisp
+  (use-package async
+    :load-path "pkgs/emacs-async"
+    :config
+    (autoload 'dired-async-mode "dired-async.el" nil t)
+    (dired-async-mode 1))
+#+END_SRC
+
+** geiser
+Geiser is project to let emacs to talk scheme. It can be used with different scheme implementations.
+
+#+begin_src emacs-lisp
+  (use-package geiser
+    :load-path "pkgs/geiser/elisp"
+    :config
+    (setq geiser-scheme-dir (expand-file-name "pkgs/geiser/scheme"
+					      user-emacs-directory)))
+#+END_SRC
+
+** paredit
+Paredit helps *keep parethesis balanced*.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :load-path "pkgs/paredit"
+    :config
+    (autoload 'enable-paredit-mode "paredit"
+      "Turn on pseudo-structural editing of Lisp code." t)
+    (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook #'enable-paredit-mode)
+    (add-hook 'lisp-iteraction-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook #'enable-paredit-mode))
+#+END_SRC
+
+** company-mode
+Autocomplete everything!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :load-path "pkgs/company-mode"
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
+** dash
+A modern list library for Emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package dash
+  :load-path "pkgs/dash.el")
+  (use-package dash-functional
+  :load-path "pkgs/dash.el")
+#+END_SRC
+
+** s.el
+The long lost Emacs string manipulation library.
+#+BEGIN_SRC emacs-lisp
+  (use-package s
+    :load-path "pkgs/s.el")
+#+END_SRC
+
+** powerline
+#+BEGIN_SRC emacs-lisp
+  (use-package powerline
+    :load-path "pkgs/powerline")
+#+END_SRC
+
+** spaceline
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline-config
+    :load-path "pkgs/spaceline"
+    :after (dash s powerline)
+    :config
+    (spaceline-helm-mode 1))
+#+END_SRC
+
+** emacs-memoize
+#+BEGIN_SRC emacs-lisp
+  (use-package memoize
+    :load-path "pkgs/emacs-memoize")
+
+#+END_SRC
+
+** font-lock-plus
+#+BEGIN_SRC emacs-lisp
+  (use-package font-lock+
+    :load-path "pkgs/font-lock-plus")
+#+END_SRC
+
+** ag.el
+#+BEGIN_SRC emacs-lisp
+  (use-package ag
+  :load-path "pkgs/ag.el")
+#+END_SRC
+** perspeen
+Use workspaces in emacs. It allows also tabs per workspace.
+#+BEGIN_SRC emacs-lisp
+  (use-package perspeen
+    :load-path "pkgs/perspeen"
+    :after (powerline)
+    :init
+    (setq perspeen-use-tab t)
+    (setq perspeen-keymap-prefix (kbd "C-c C-'"))
+    :config
+    (perspeen-mode))
+#+END_SRC
+** magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :load-path "pkgs/magit/lisp"
+    :after (magic-popup with-editor ghub treepy)
+    :config
+    (require 'magit))
+#+END_SRC
+** magit-popup
+#+BEGIN_SRC emacs-lisp
+  (use-package magit-popup
+    :load-path "pkgs/magit-popup")
+#+END_SRC
+** with-editor
+#+BEGIN_SRC emacs-lisp
+    (use-package with-editor
+      :load-path "pkgs/with-editor")
+#+END_SRC
+
+** ghub
+Github API client, required by magit.
+#+BEGIN_SRC emacs-lisp
+  (use-package ghub
+    :after (graphql)
+    :load-path "pkgs/ghub")
+#+END_SRC
+
+** treepy.el
+Tree traversing tools for emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package treepy
+    :load-path "pkgs/treepy.el")
+#+END_SRC
+
+** graphql.el
+Functions to interact with GraphQL services.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package graphql
+    :load-path "pkgs/graphql.el")
+#+END_SRC
+** racket-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package racket-mode
+    :load-path "pkgs/racket-mode"
+    :config
+    (add-hook 'racket-mode-hook
+	      (lambda ()
+		(define-key racket-mode-map (kbd "C-c r") 'racket-run))))
+#+END_SRC
+** eyeliner
+#+BEGIN_SRC emacs-lisp
+  (use-package eyeliner
+    :load-path "pkgs/eyeliner"
+    :config
+    (require 'eyeliner)
+    (eyeliner/install))
+#+END_SRC
+** elisp-refs
+#+BEGIN_SRC emacs-lisp
+    (use-package elisp-refs
+      :load-path "pkgs/elisp-refs"
+      :after (loop))
+#+END_SRC
+
+** loop.el
+#+BEGIN_SRC emacs-lisp
+  (use-package loop
+    :load-path "pkgs/loop.el")
+#+END_SRC
+
+** shut-up
+#+BEGIN_SRC emacs-lisp
+  (use-package shut-up
+    :load-path "pkgs/shut-up")
+#+END_SRC
+
+** f.el
+#+BEGIN_SRC emacs-lisp
+  (use-package f
+    :load-path "pkgs/f.el")
+#+END_SRC
+
+** helpful
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :load-path "pkgs/helpful"
+    :after (elisp-refs shut-up f s loop)
+    :bind (("C-h f" . helpful-callable)
+	   ("C-h v" . helpful-variable)
+	   ("C-h k" . helpful-key)
+	   ("C-h C-d" . helpful-at-point)
+	   ("C-h F" . helpful-function)
+	   ("C-h C" . helpful-command)))
+#+END_SRC
+** yaml-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.yml\\'"
+    :load-path "pkgs/yaml-mode"
+    :config
+    (add-hook 'yaml-mode-hook
+	      '(lambda ()
+		 (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+#+END_SRC
