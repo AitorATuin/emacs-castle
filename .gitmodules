@@ -112,3 +112,6 @@
 [submodule "f.el"]
 	path = f.el
 	url = https://github.com/rejeep/f.el.git
+[submodule "yaml-mode"]
+	path = yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git

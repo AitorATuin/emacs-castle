@@ -451,3 +451,13 @@ Functions to interact with GraphQL services.
 	   ("C-h F" . helpful-function)
 	   ("C-h C" . helpful-command)))
 #+END_SRC
+** yaml-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.yml\\'"
+    :load-path "pkgs/yaml-mode"
+    :config
+    (add-hook 'yaml-mode-hook
+	      '(lambda ()
+		 (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+#+END_SRC
