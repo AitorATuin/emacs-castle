@@ -459,5 +459,6 @@ Functions to interact with GraphQL services.
     :config
     (add-hook 'yaml-mode-hook
 	      '(lambda ()
-		 (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+		 (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+    (defun org-babel-execute:yaml (body params) body))
 #+END_SRC
