@@ -16,26 +16,17 @@ The first thing we should do is bootstrap use-package now since we will use it
 #+END_SRC
 
 * Basic settings
-** Remove decorations from the window
-I like to have a clean view (similar to the one I used to have in vim).
-#+BEGIN_SRC emacs-lisp
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
-  (tooltip-mode 0)
-  (setq inhibit-startup-buffer-menu t
-	inhibit-startup-screen t
-	inhibit-startup-echo-area-message "locutus"
-	initial-buffer-choice nil
-	initial-scratch-message ""
-	package-enable-at-startup nil)
-#+END_SRC
-
-** Some default paths
+** Some other stuff
+We want to have all the backup files saved in the same place.
 Save the backup files inside _user-emacs-directory_ so we don't let leftovers all around the file system.
+
 #+BEGIN_SRC emacs-lisp
-  (setq save-place-file (concat user-emacs-directory "places")
-	backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+  (setq backup-directory-alist
+	`(("." . ,(concat user-emacs-directory "backups")))
+	backup-by-copying t
+	kept-new-versions 6
+	kept-old-versions 2
+	version-control t)
 #+END_SRC
 
 ** Debug emacs
