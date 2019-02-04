@@ -115,3 +115,6 @@
 [submodule "yaml-mode"]
 	path = yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
+[submodule "dockerfile-mode"]
+	path = dockerfile-mode
+	url = https://github.com/spotify/dockerfile-mode.git

@@ -402,9 +402,14 @@ Functions to interact with GraphQL services.
   (use-package racket-mode
     :load-path "pkgs/racket-mode"
     :config
+    (setq tab-always-indent 'complete)
     (add-hook 'racket-mode-hook
 	      (lambda ()
-		(define-key racket-mode-map (kbd "C-c r") 'racket-run))))
+		(define-key racket-mode-map (kbd "C-c r") 'racket-run)))
+    (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+    (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+    (require 'racket-complete)
+    (require 'racket-unicode-input-method))
 #+END_SRC
 ** eyeliner
 #+BEGIN_SRC emacs-lisp
@@ -461,4 +466,10 @@ Functions to interact with GraphQL services.
 	      '(lambda ()
 		 (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
     (defun org-babel-execute:yaml (body params) body))
+#+END_SRC
+** dockerfile-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode
+    :load-path "pkgs/dockerfile-mode"
+    :mode "Dockerfile\\")
 #+END_SRC
