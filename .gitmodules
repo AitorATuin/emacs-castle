@@ -118,3 +118,6 @@
 [submodule "dockerfile-mode"]
 	path = dockerfile-mode
 	url = https://github.com/spotify/dockerfile-mode.git
+[submodule "docker-compose-mode"]
+	path = docker-compose-mode
+	url = https://github.com/meqif/docker-compose-mode.git

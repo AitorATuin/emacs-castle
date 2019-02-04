@@ -473,3 +473,9 @@ Functions to interact with GraphQL services.
     :load-path "pkgs/dockerfile-mode"
     :mode "Dockerfile\\")
 #+END_SRC
+
+** docker-compose-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package docker-compose-mode
+    :load-path "pkgs/docker-compose-mode")
+#+END_SRC
