@@ -16,13 +16,27 @@ The first thing we should do is bootstrap use-package now since we will use it
 #+END_SRC
 
 * Basic settings
-** Some other stuff
-We want to have all the backup files saved in the same place.
-Save the backup files inside _user-emacs-directory_ so we don't let leftovers all around the file system.
-
+** Remove decorations from the window
+I like to have a clean view (similar to the one I used to have in vim).
 #+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist
-	`(("." . ,(concat user-emacs-directory "backups")))
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (tooltip-mode 0)
+  (setq inhibit-startup-buffer-menu t
+	inhibit-startup-screen t
+	inhibit-startup-echo-area-message "locutus"
+	initial-buffer-choice nil
+	initial-scratch-message ""
+	package-enable-at-startup nil)
+#+END_SRC
+
+** Some default paths
+Save the backup files inside _user-emacs-directory_ so we don't let leftovers all around the file system.
+#+BEGIN_SRC emacs-lisp
+  (setq save-place-file (concat user-emacs-directory "places")
+	backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+	backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
 	backup-by-copying t
 	kept-new-versions 6
 	kept-old-versions 2
@@ -32,7 +46,7 @@ Save the backup files inside _user-emacs-directory_ so we don't let leftovers al
 ** Debug emacs
 These variables can be used to debug emacs startup
 #+BEGIN_SRC emacs-lisp
-  (setq use-package-verbose nil)
+  (setq use-package-verbose t)
 #+END_SRC
 
 ** Org configuration
@@ -461,12 +475,66 @@ Functions to interact with GraphQL services.
 ** dockerfile-mode
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode
-    :load-path "pkgs/dockerfile-mode"
-    :mode "Dockerfile\\")
+    :load-path "pkgs/dockerfile-mode")
+    ;:mode "\\Dockerfile\\")
 #+END_SRC
 
 ** docker-compose-mode
 #+BEGIN_SRC emacs-lisp
   (use-package docker-compose-mode
     :load-path "pkgs/docker-compose-mode")
+#+END_SRC
+** gglobal
+#+BEGIN_SRC emacs-lisp
+  (use-package ggtags
+    :load-path "pkgs/ggtags"
+    :bind (:map ggtags-mode-map
+		("C-c g s" . ggtags-find-other-symbol)
+		("C-c g h" . ggtags-view-tag-history)
+		("C-c g r" . ggtags-find-reference)
+		("C-c g f" . ggtags-find-file)
+		("C-c g c" . ggtags-create-tags)
+		("C-c g u" . ggtags-updated-tags)
+		("M-," . pop-tag-mark))
+    :init
+    (require 'ggtags)
+    (add-hook 'c-mode-common-hook
+	      (lambda ()
+		(when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+		  (ggtags-mode 1)))))
+#+END_SRC
+
+** helm-gtags
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-gtags
+    :load-path "pkgs/emacs-helm-gtags"
+    :hook (dired-mode-hook eshell-mode-hook c-mode-hook c++-mode-hook asm-mode-hook)
+    :bind (:map helm-gtags-mode-map
+		("C-c g a" . helm-gtags-tags-in-this-function)
+		("M-s" . helm-gtags-select)
+		("M-." . helm-gtags-dwim)
+		("M-," . helm-gtags-pop-stack)
+		("C-c <" . helm-gtags-previous-history)
+		("C-c >" . helm-gtags-next-history))
+    :init
+    (require 'helm-gtags)
+    :config
+    (setq
+     helm-gtags-ignore-case t
+     helm-gtags-auto-update t
+     helm-gtags-use-input-at-cursor t
+     helm-gtags-pulse-at-cursor t
+     helm-gtags-prefix-key "\C-cg"
+     helm-gtags-suggested-key-mapping t))
+#+END_SRC
+
+** xcscope.el
+#+BEGIN_SRC emacs-lisp
+  (use-package xcscope
+    :load-path "pkgs/xcscope.el"
+    :hook (c-mode-hook c++-mode-hook)
+    :init
+    (require 'xcscope)
+    (cscope-setup))
+
 #+END_SRC

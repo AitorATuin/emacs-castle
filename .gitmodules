@@ -121,3 +121,12 @@
 [submodule "docker-compose-mode"]
 	path = docker-compose-mode
 	url = https://github.com/meqif/docker-compose-mode.git
+[submodule "ggtags"]
+	path = ggtags
+	url = https://github.com/leoliu/ggtags
+[submodule "emacs-helm-gtags"]
+	path = emacs-helm-gtags
+	url = https://github.com/syohex/emacs-helm-gtags.git
+[submodule "xcscope.el"]
+	path = xcscope.el
+	url = https://github.com/dkogan/xcscope.el.git
