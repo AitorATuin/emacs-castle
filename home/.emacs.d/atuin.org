@@ -557,3 +557,15 @@ Functions to interact with GraphQL services.
     :config
     (add-to-list 'company-backends 'company-c-headers))
 #+END_SRC
+** yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :load-path "pkgs/yasnippet"
+    :config
+    (yas-global-mode 1))
+#+END_SRC
+** yasnippet-snippets
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets
+    :load-path "pkgs/yasnippet-snippets")
+#+END_SRC
