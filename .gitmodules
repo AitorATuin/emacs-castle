@@ -130,3 +130,9 @@
 [submodule "xcscope.el"]
 	path = xcscope.el
 	url = https://github.com/dkogan/xcscope.el.git
+[submodule "sr-speedbar"]
+	path = sr-speedbar
+	url = https://github.com/emacsorphanage/sr-speedbar.git
+[submodule "company-c-headers"]
+	path = company-c-headers
+	url = https://github.com/randomphrase/company-c-headers.git
